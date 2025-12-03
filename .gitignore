@@ -1,0 +1,54 @@
+# Virtual Environment
+venv/
+env/
+.env
+
+# Data files - keep structure, ignore content
+data/training_samples/*
+data/models/*
+!data/training_samples/.gitkeep
+!data/models/.gitkeep
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude files
+.claude/
+.claude-*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Audio files (optional - uncomment if you don't want to track sample audio files)
+# *.wav
+# *.mp3
+# *.m4a

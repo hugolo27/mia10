@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Datos con Métodos Data-Driven | MIA10</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="project-title">
+                <h4>Grupo 6</h4>
+                <h3>Trabajo Práctico 2: Reconocedor de Voz</h3>
+                <p>Implementación de técnicas FFT, MFCC, DMD y SVD sin modelo físico explícito</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Panel de Control Principal -->
+            <div class="control-panel">
+                <div class="section training-panel">
+                    <h3>I. Entrenamiento del Sistema</h3>
+                    <div class="form-group">
+                        <label for="userName">Identificación del usuario:</label>
+                        <input type="text" id="userName" placeholder="Nombre del usuario" class="input-field">
+                    </div>
+                    <div class="form-group">
+                        <label>Palabra objetivo:</label>
+                        <select id="wordSelect" class="input-field">
+                            <option value="hola">hola</option>
+                            <option value="adios">adiós</option>
+                            <option value="si">sí</option>
+                            <option value="no">no</option>
+                            <option value="gracias">gracias</option>
+                        </select>
+                    </div>
+                    <div class="control-buttons">
+                        <button id="trainRecord" class="btn btn-record">● Iniciar Grabación</button>
+                        <button id="trainStop" class="btn btn-stop" disabled>■ Detener</button>
+                    </div>
+                    <div class="status-panel">
+                        <div class="training-status">
+                            <span>Estado: </span><span id="sampleCount">0</span> muestras procesadas
+                        </div>
+                        <div class="metrics-display" id="trainingMetrics">
+                            <!-- Métricas de rendimiento aparecerán aquí -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section testing-panel">
+                    <h3>II. Prueba de Reconocimiento</h3>
+                    <div class="control-buttons">
+                        <button id="testRecord" class="btn btn-test">▶ Probar Reconocimiento</button>
+                        <button id="testStop" class="btn btn-stop" disabled>■ Detener</button>
+                    </div>
+                    <div class="results-panel">
+                        <h4>Resultado del Análisis:</h4>
+                        <div id="predictionResult" class="result-display">
+                            Sistema listo para análisis de muestras de voz
+                        </div>
+                        <div class="metrics-display" id="predictionMetrics">
+                            <!-- Métricas de predicción aparecerán aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Análisis Data-Driven -->
+            <div class="analysis-section">
+                <h3>III. Análisis con Métodos Data-Driven</h3>
+                <div class="analysis-description">
+                    <p>Visualización en tiempo real de las características extraídas mediante algoritmos de descomposición modal y análisis espectral.</p>
+                    <div class="visualization-info">
+                        <small><strong>📊 Nota:</strong> Los gráficos se actualizan con cada muestra de audio procesada (entrenamiento o predicción), mostrando el análisis de la última señal grabada.</small>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h4>FFT - Análisis Espectral</h4>
+                        <p class="method-desc">Transformada rápida de Fourier para extracción de frecuencias dominantes</p>
+                        <canvas id="fftCanvas" class="analysis-chart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h4>MFCC - Coeficientes Cepstrales</h4>
+                        <p class="method-desc">Representación perceptual basada en escala mel</p>
+                        <canvas id="mfccCanvas" class="analysis-chart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h4>DMD - Descomposición Modal Dinámica</h4>
+                        <p class="method-desc">Extracción de modos coherentes temporales sin modelo físico</p>
+                        <canvas id="dmdCanvas" class="analysis-chart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h4>SVD - Análisis de Componentes</h4>
+                        <p class="method-desc">Descomposición en valores singulares del espectrograma</p>
+                        <canvas id="spectrogramCanvas" class="analysis-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Métricas del Sistema -->
+            <div class="system-metrics">
+                <h3>IV. Métricas del Sistema</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>Rendimiento</h4>
+                        <div id="performanceMetrics">
+                            <p>Velocidad promedio: <span id="avgSpeed">--</span> ms</p>
+                            <p>Última predicción: <span id="lastPredTime">--</span> ms</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Precisión</h4>
+                        <div id="accuracyMetrics">
+                            <p>Usuarios: <span id="userAccuracy">--</span>%</p>
+                            <p>Palabras: <span id="wordAccuracy">--</span>%</p>
+                            <small id="evaluationMethod" style="color: #6c757d; font-style: italic;">--</small>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Estado del Modelo</h4>
+                        <div id="modelMetrics">
+                            <p>Muestras: <span id="totalSamples">0</span></p>
+                            <p>Estado: <span id="modelStatus">No entrenado</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="auto-update-info">
+                    <small>📈 Métricas actualizadas automáticamente cada 5 segundos</small>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Implementación basada en: Schmid (2010), Kutz et al. (2016), Le Clainche & Vega (2017)</p>
+            <p>Framework data-driven sin conocimiento explícito del modelo físico del sistema vocal</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="utils.js"></script>
+</body>
+</html>
