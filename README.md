@@ -8,6 +8,10 @@
 
 ---
 
+#### TL;DR Ejecutar con `python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python backend/app.py`
+
+---
+
 ## Introducción
 
 Este proyecto implementa un sistema de reconocimiento de voz utilizando métodos data-driven, sin conocimiento previo del modelo físico subyacente. El sistema identifica tanto al hablante como la palabra pronunciada mediante análisis de patrones extraídos directamente de las señales de audio.
